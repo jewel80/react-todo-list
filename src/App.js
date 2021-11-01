@@ -28,7 +28,7 @@ handleSubmit = (e) =>{
     title: this.state.item
   }
   
-  console.log(newItem)
+  // console.log(newItem)
   
   const updatedItems = [...this.state.items, newItem];
 
@@ -38,8 +38,34 @@ handleSubmit = (e) =>{
     id: uuid(),
     editItem : false
   });
+}
 
+clearList = () => {
+  this.setState({
+    items: []
+  })
+}
 
+handleDelete = (id) => {
+  alert("Press a button!")
+  const filteredItems = this.state.items.filter(item => item.id !== id)
+  this.setState({
+    items:filteredItems
+  }) 
+}
+
+handleEdit = id =>{
+  const filteredItems = this.state.items.filter(item => item.id !== id)
+
+  const selectItem = this.state.items.find( item => item.id === id)
+  console.log(selectItem)
+
+  this.setState({
+    items:filteredItems,
+    item: selectItem.title,
+    editItem: true,
+    id: id
+  }) 
 }
 
   render() {
@@ -53,8 +79,14 @@ handleSubmit = (e) =>{
             <TodoInput 
               item={this.state.item} 
               hanldleChange={this.hanldleChange} 
-              handleSubmit={this.handleSubmit}/>
-            <TodoList items={this.state.items}/>
+              handleSubmit={this.handleSubmit}
+              editItem={this.state.editItem}
+            />
+            <TodoList items={this.state.items}
+              clearList={this.clearList}
+              handleDelete={this.handleDelete}
+              handleEdit={this.handleEdit}
+            />
           </div>
         </div>
       </div>
